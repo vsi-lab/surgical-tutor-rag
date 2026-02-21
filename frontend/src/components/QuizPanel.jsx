@@ -77,7 +77,7 @@ export default function QuizPanel({level}){
   }
 
   return (
-    <div className="bg-white/95 dark:bg-slate-900/90 backdrop-blur-xl border border-white/50 dark:border-purple-500/20 shadow-2xl dark:shadow-purple-500/10 rounded-2xl p-6 hover:shadow-3xl dark:hover:shadow-purple-500/20 transition-all duration-300 min-h-[500px] max-h-[800px] overflow-y-auto flex flex-col">
+    <div className="bg-white/95 dark:bg-slate-900/90 backdrop-blur-xl border-2 border-purple-200 dark:border-purple-500/30 shadow-2xl dark:shadow-purple-500/10 rounded-2xl p-6 hover:shadow-3xl dark:hover:shadow-purple-500/20 hover:border-purple-300 dark:hover:border-purple-400/40 transition-all duration-300 overflow-y-auto flex flex-col">
       <div className="flex items-center gap-3 mb-6">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl blur-md opacity-50"></div>
