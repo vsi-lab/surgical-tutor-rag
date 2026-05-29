@@ -52,8 +52,8 @@ export default function ChatPanel({level}){
             </div>
           </div>
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-white drop-shadow-lg">AI Medical Assistant</h3>
-            <p className="text-sm text-cyan-50">Surgical education powered by Gemini</p>
+            <h3 className="text-2xl font-bold text-white drop-shadow-lg">Surgical Research Assistant</h3>
+            <p className="text-sm text-cyan-50">Evidence-grounded surgical education research</p>
           </div>
           <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30">
             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
@@ -76,7 +76,7 @@ export default function ChatPanel({level}){
                 </div>
               </div>
               <h4 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-3">
-                Welcome to Medical AI Assistant
+                Welcome to Surgical Education Research Assistant
               </h4>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Ask me anything about surgical procedures, techniques, instruments, or medical concepts
@@ -198,7 +198,7 @@ export default function ChatPanel({level}){
           </button>
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-500 mt-2 text-center">
-          Press Enter to send • Powered by Gemini AI
+          Press Enter to send
         </p>
       </div>
 
