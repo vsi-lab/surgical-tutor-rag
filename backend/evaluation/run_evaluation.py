@@ -57,7 +57,8 @@ except ImportError:
     HAS_VISUALIZATION = False
     print("Warning: pandas/matplotlib not installed. Visualizations will be skipped.")
 
-from metrics.retrieval_metrics import evaluate_retrieval, RetrievalMetrics
+from metrics.retrieval_metrics import evaluate_retrieval, RetrievalMetrics, source_chunk_id
+from revision.data_audit import build_corpus_manifest, resolve_legacy_qrel
 from metrics.qa_metrics import evaluate_qa, QAMetrics
 from metrics.hallucination_metrics import evaluate_hallucination
 from ablation_study import AblationStudy
@@ -288,44 +289,44 @@ class ComprehensiveEvaluator:
         return []
     
     def _evaluate_retrieval(self, test_data: List[Dict]) -> Dict:
-        """Evaluate retrieval metrics"""
-        # Convert test data to retrieval format
-        queries = [
-            {
-                'query': qa['question'],
-                'relevant_doc_ids': [str(qa['chunk_id'])]  # Convert to string to match retrieved IDs
-            }
-            for qa in test_data
-        ]
-        
-        # Your retrieval function using actual RAG system
+        """Evaluate resolved legacy qrels with global source/chunk/text identifiers.
+
+        Address resolution does not establish independent relevance. This legacy
+        runner must not be used to describe retrieval-filtered questions as a new
+        held-out benchmark. Audit and explicitly resolve/exclude unjudged queries
+        before calling it; invalid labels and retrieval failures are not zero scores.
+        """
+        if self.faiss is None or self.embedder is None:
+            raise RuntimeError("Retrieval evaluation requires an initialized index and embedder")
+        _, lookup, _ = build_corpus_manifest(self.faiss.id_to_meta)
+        queries = []
+        for position, qa in enumerate(test_data, 1):
+            resolution = resolve_legacy_qrel(qa, lookup)
+            if not resolution['doc_ids']:
+                raise ValueError(
+                    f"Query {position} has {resolution['status']}; run revision/data_audit.py "
+                    "and resolve or explicitly exclude missing judgments before evaluation"
+                )
+            queries.append({'query': qa['question'], 'relevant_doc_ids': resolution['doc_ids']})
+        requested_depth = max([10] + self.config['evaluation']['k_values'])
+
         def retrieve_function(query):
-            if not self.faiss or not self.embedder:
-                return []  # Placeholder mode
-            
-            try:
-                # Use graph retriever if available, otherwise FAISS
-                if self.graph_retriever:
-                    contexts = self.graph_retriever.retrieve(query, top_k=10, use_graph=True)
-                else:
-                    query_emb = self.embedder.embed_texts([query])[0]
-                    contexts = self.faiss.query(query_emb, top_k=10)
-                
-                # Extract chunk IDs from metadata
-                chunk_ids = []
-                for ctx in contexts:
-                    meta = ctx.get('metadata', {})
-                    # Check multiple possible keys
-                    chunk_id = (meta.get('chunk_id') or 
-                               meta.get('chunk_index') or 
-                               meta.get('id', None))
-                    if chunk_id is not None:
-                        chunk_ids.append(str(chunk_id))
-                
-                return chunk_ids
-            except Exception as e:
-                print(f"Retrieval error: {e}")
-                return []
+            if self.graph_retriever:
+                contexts = self.graph_retriever.retrieve(query, top_k=requested_depth, use_graph=True)
+            else:
+                query_emb = self.embedder.embed_texts([query])[0]
+                contexts = self.faiss.query(query_emb, top_k=requested_depth)
+            chunk_ids = []
+            for ctx in contexts:
+                meta = ctx.get('metadata', {})
+                local = meta.get('chunk_index')
+                if local is None:
+                    local = meta.get('chunk_id')
+                doc_id = source_chunk_id(meta.get('source'), local, meta.get('text'))
+                if doc_id not in lookup['by_id']:
+                    raise ValueError("Retrieved evidence is absent from the frozen corpus manifest")
+                chunk_ids.append(doc_id)
+            return chunk_ids
         
         # Evaluate
         results = evaluate_retrieval(

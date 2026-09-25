@@ -4,3 +4,5 @@ node_modules/
 *.pyc
 .env
 .faiss_index.index*
+revision_review/
+backend/evaluation/revision_outputs/
