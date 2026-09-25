@@ -40,9 +40,9 @@ export default function App(){
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent">
-                    Medical AI Assistant
+                    Surgical Education Research Assistant
                   </h1>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Powered by Gemini AI</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Evidence-grounded surgical tutoring prototype</p>
                 </div>
               </div>
 
@@ -165,7 +165,7 @@ export default function App(){
           <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-t border-cyan-200 dark:border-cyan-500/30 px-6 py-4">
             <div className="flex items-center justify-between text-sm">
               <div className="text-gray-600 dark:text-gray-400">
-                © 2026 Medical AI Assistant • Powered by Gemini AI
+                © 2026 Surgical Education Research Assistant • Journal Research Prototype
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2">
