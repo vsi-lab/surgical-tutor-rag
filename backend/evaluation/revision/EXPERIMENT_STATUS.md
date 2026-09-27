@@ -1,10 +1,16 @@
 **Revision experiment status — 24 September 2026, America/Phoenix (25 September UTC)**
 
-Work was performed directly on `main`, starting from commit `88df42a6ecb6591af70bcedf724123ad007d433c`. Code and reports are working-tree changes; no commit or push was made.
+**26 September update:** The user subsequently confirmed deletion of the cloud database and authorized reconstruction from saved chunks. That work is complete: **115 unique nodes and 382 relationships** plus a validated dump. The exact reconstruction was imported into the configured Aura database and is now selected by `backend/.env`; the local fallback is preserved and stopped. The February-only replay produced 92/272. The old 434/389 figures exactly match approximate upload counters and are not measured unique database cardinalities. See [LOCAL_GRAPH_REBUILD.md](LOCAL_GRAPH_REBUILD.md) for reconstruction inputs and limitations and [AURA_DEPLOYMENT.md](AURA_DEPLOYMENT.md) for the hosted import and validation. All 137 revision tests passed.
 
-**Completed measured work**
+The 60-question four-condition diagnostic was then rerun against the rebuilt graph using the same frozen evidence and byte-identical archived model responses. The primary outcomes were unchanged (`V` 13 answered, `V_L` 10, `V_G` 0, `V_GL` 0; graph arms each had 50 abstentions and 10 extraction errors). The one-repair development outcomes were also unchanged (graph arms each had 55 abstentions and 5 errors). There were zero new model calls and zero incremental provider-reported cost. All 34 primary and 43 development relations reaching the checker remained unknown due to unresolved entities; only the `ultrasound` source endpoint resolved in both graphs. See [REBUILT_GRAPH_EXPERIMENT_COMPARISON.md](REBUILT_GRAPH_EXPERIMENT_COMPARISON.md). These are legacy diagnostics without completed human labels and do not reproduce the submitted paper's aggregate metrics.
 
-The supplied Neo4j dump was successfully restored and exported without the original instance's password. It contains **49 nodes and 66 relationships**, whereas the submitted manuscript describes **434 entities and 389 relations**. It has no temporal or contraindication predicates and no recorded edge source references. The user reports that this is the only graph available to them and that the original may have been deleted; deletion is unconfirmed. Revision work therefore uses it as a separately frozen replacement snapshot, without claiming identity with the submission graph. [REPLACEMENT_STUDY_DRAFT.md](REPLACEMENT_STUDY_DRAFT.md) contains concrete disclosure and claim-change wording; [GRAPH_REVISION_GAPS.md](GRAPH_REVISION_GAPS.md) cites the manuscript/reviewer gaps.
+The remaining sections preserve the earlier 24-25 September experiment record, including what was known then. Its database-availability statements and proposed 49/66-only next steps have been superseded by the reconstruction report above.
+
+The earlier work was performed directly on `main`, starting from commit `88df42a6ecb6591af70bcedf724123ad007d433c`. Those changes were later included in the repository history. The 26 September reconstruction began from `e82708c`; its new code and report edits remain uncommitted. No commit or push was made during the reconstruction.
+
+**Historical 24-25 September measured work (superseded where noted)**
+
+The supplied Neo4j dump was successfully restored and exported without the original instance's password. It contains **49 nodes and 66 relationships**, whereas the submitted manuscript describes **434 entities and 389 relations**. It has no temporal or contraindication predicates and no recorded edge source references. At that stage, the user reported that this was the only graph available and that the original might have been deleted; deletion was then unconfirmed. Revision work therefore used it as a separately frozen replacement snapshot, without claiming identity with the submission graph. [REPLACEMENT_STUDY_DRAFT.md](REPLACEMENT_STUDY_DRAFT.md) contains concrete disclosure and claim-change wording; [GRAPH_REVISION_GAPS.md](GRAPH_REVISION_GAPS.md) cites the manuscript/reviewer gaps.
 
 The corrected data audit and dense retrieval cover all 60 legacy questions. The completed four-condition diagnostic run produced **240 query/condition records**, using the configured `openai/gpt-4o` model through OpenRouter. The 120 vector/LLM baseline records were reproduced through exact-request caching and verified to have identical inputs, decisions, evidence selections and answers. Every request, raw response, decision and token/cost record is saved. Original legacy results were not overwritten.
 
@@ -78,13 +84,13 @@ Keep the private mapping and raw system labels away from annotators. The annotat
 
 The inputs and diagnostic results are under `backend/evaluation/revision_outputs/data_audit/` and `backend/evaluation/revision_outputs/retrieval_20260924/`. Generated raw outputs are kept locally and ignored by Git; preserve them with the research records.
 
-**Graph recovered; study identity and provenance unresolved**
+**Historical graph recovery status; study identity and provenance unresolved**
 
-The previous cloud Neo4j address does not resolve, and the running local instance rejects the credentials in `backend/.env`. The application URI was set to `neo4j://127.0.0.1:7687`; its password was not reset. These credentials are no longer a blocker for offline revision experiments because the supplied dump restored successfully into a separate workspace directory. The original Desktop instance was not modified.
+At that stage, the previous cloud Neo4j address did not resolve, and the running local instance rejected the credentials then present in `backend/.env`. The application URI was set to `neo4j://127.0.0.1:7687`; its password was not reset. Those credentials were no longer a blocker for offline revision experiments because the supplied dump restored successfully into a separate workspace directory. The original Desktop instance was not modified.
 
 The [snapshot](../revision_outputs/dump_restore_20260925/graph_snapshot.json), [inventory](../revision_outputs/dump_restore_20260925/graph_inventory.md) and [66-edge review queue](../revision_outputs/dump_restore_20260925/graph_triples_for_review.csv) are available. Dump SHA-256: `c131de1649c761e2b5528b5470b3380f8cea0ab1f69d9d4b4287c669e67a802e`. [DUMP_RESTORE.md](DUMP_RESTORE.md) records reproduction steps. The graph has six predicate types, none encoding the manuscript's temporal/contraindication checks. Its timestamps and five `confidence` values are not source citations or human validation.
 
-**Highest-impact next work**
+**Historical highest-impact next work (superseded by the 26 September update)**
 
 1. Agree on a transparent replacement-study scope using the available 49/66 snapshot. Disclose that the original graph is unavailable for verification and remove original graph-dependent claims unless their supporting records can be recovered. Do not transfer the old performance tables to the replacement graph.
 2. Have qualified reviewers use the prepared source-candidate and 66-edge review sheets to establish actual source support, direction and normalization. Obtain full source guidelines for context. This creates new validation records rather than reconstructing historical curation by assumption.

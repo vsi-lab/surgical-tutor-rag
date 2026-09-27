@@ -6,3 +6,4 @@ node_modules/
 .faiss_index.index*
 revision_review/
 backend/evaluation/revision_outputs/
+/tmp/

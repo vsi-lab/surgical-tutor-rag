@@ -2,6 +2,8 @@
 
 This directory contains an auditable revision workflow: inspect legacy data, freeze dense retrieval, run matched verification conditions, and export genuine human annotation work. New code and new pilot runs do **not** retroactively validate the original manuscript's retrieval, hallucination, graph-quality or surgeon-rating results. Missing measurements remain missing.
 
+**26 September update:** [LOCAL_GRAPH_REBUILD.md](LOCAL_GRAPH_REBUILD.md) records the completed reconstruction from saved chunks: **115 unique nodes and 382 relationships** plus a validated Neo4j dump. [AURA_DEPLOYMENT.md](AURA_DEPLOYMENT.md) records the exact import of that reconstruction into the configured Aura database, which is now selected by `backend/.env`; the local fallback is preserved and stopped. [REBUILT_GRAPH_EXPERIMENT_COMPARISON.md](REBUILT_GRAPH_EXPERIMENT_COMPARISON.md) records the completed same-evidence reruns. Their operational outcomes are identical to the earlier 49/66 diagnostic because all checked relations remain unresolved; this does not reproduce the submitted aggregate metrics or establish identity with the deleted submission graph.
+
 Run commands from the repository root with a Python environment containing the relevant dependencies. `data_audit` needs NumPy; `freeze_retrieval` also needs FAISS, PyTorch and Transformers; `preflight` needs python-dotenv, Neo4j and optionally the OpenAI client; `run_matched` needs python-dotenv and the OpenAI client. The offline graph verifier, annotation tools and their focused tests use the standard library. Use the repository's configured environment; the full application requirements include additional components not needed by this workflow.
 
 ## 1. Audit the legacy corpus and questions
